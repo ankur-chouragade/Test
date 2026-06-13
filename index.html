@@ -1,325 +1,699 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="mr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>शब्दार्थ — रोज़ पाँच शब्द</title>
+<title>बुद्धीघर — रोज ७ प्रश्न</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&family=Mukta:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&family=Mukta:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --paper:#F7F4EC;
-    --ink:#1C1D2E;
-    --ink-soft:#5A5B6E;
-    --teal:#0E6E63;
-    --teal-soft:#E3EEEC;
-    --marigold:#E8A33D;
-    --green:#2E7D4F;
-    --green-bg:#E4F2E9;
-    --red:#C0392B;
-    --red-bg:#F9E7E4;
-    --line:#D8D3C4;
-    --card:#FFFFFF;
-  }
-  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-  body{
-    background:var(--paper);
-    color:var(--ink);
-    font-family:'Mukta',system-ui,sans-serif;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-  }
-  .wrap{width:100%;max-width:560px;padding:0 20px 60px}
+:root {
+  --bg:        #F5F2EB;
+  --card:      #FFFFFF;
+  --ink:       #1A1A2E;
+  --ink-soft:  #6B6B80;
+  --border:    #DDD9CC;
+  --accent:    #4A5568;
+  --saffron:   #E07B39;
+  --saffron-bg:#FDF0E7;
+  --teal:      #2C7A6E;
+  --teal-bg:   #E4F0EE;
+  --selected:  #1A1A2E;
+  --selected-fg:#F5F2EB;
+}
 
-  /* ── Header with shirorekha progress ── */
-  header{padding:28px 0 10px;text-align:center}
-  .title{font-family:'Tiro Devanagari Hindi',serif;font-size:2.2rem;line-height:1.2}
-  .tagline{color:var(--ink-soft);font-size:.95rem;margin-top:2px}
-  .day-label{display:inline-block;margin-top:10px;font-size:.8rem;letter-spacing:.06em;color:var(--teal);background:var(--teal-soft);padding:3px 12px;border-radius:999px;font-weight:500}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
-  .shiro{height:4px;background:var(--line);border-radius:2px;margin:18px 0 6px;position:relative;overflow:hidden}
-  .shiro-fill{position:absolute;left:0;top:0;bottom:0;width:0%;background:var(--teal);border-radius:2px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
-  .shiro-meta{display:flex;justify-content:space-between;font-size:.8rem;color:var(--ink-soft);margin-bottom:14px}
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Mukta', system-ui, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  /* ── Word card ── */
-  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:30px 24px 24px;box-shadow:0 1px 3px rgba(28,29,46,.05)}
-  .word{
-    font-family:'Tiro Devanagari Hindi',serif;
-    font-size:2.6rem;
-    text-align:center;
-    padding-bottom:14px;
-    margin-bottom:22px;
-    border-bottom:3px solid var(--ink);
-    line-height:1.4;
-  }
-  .ask{text-align:center;color:var(--ink-soft);font-size:.9rem;margin-bottom:16px}
+.wrap {
+  width: 100%;
+  max-width: 540px;
+  padding: 0 20px 80px;
+}
 
-  .opt{
-    display:block;width:100%;text-align:left;
-    font-family:'Mukta',sans-serif;font-size:1.05rem;color:var(--ink);
-    background:var(--paper);border:1.5px solid var(--line);border-radius:10px;
-    padding:13px 16px;margin-bottom:10px;cursor:pointer;
-    transition:border-color .15s, background .15s, transform .08s;
-  }
-  .opt:hover:not(:disabled){border-color:var(--teal)}
-  .opt:active:not(:disabled){transform:scale(.99)}
-  .opt:focus-visible{outline:3px solid var(--marigold);outline-offset:2px}
-  .opt:disabled{cursor:default}
-  .opt.correct{background:var(--green-bg);border-color:var(--green);color:var(--green);font-weight:700}
-  .opt.wrong{background:var(--red-bg);border-color:var(--red);color:var(--red);font-weight:700}
-  .opt.dim{opacity:.45}
+/* ── Header ── */
+header {
+  padding: 32px 0 16px;
+  text-align: center;
+}
 
-  .next-btn{
-    display:block;margin:8px auto 0;
-    background:var(--ink);color:var(--paper);border:none;border-radius:999px;
-    font-family:'Mukta',sans-serif;font-size:1rem;font-weight:500;
-    padding:11px 34px;cursor:pointer;transition:background .15s;
-  }
-  .next-btn:hover{background:var(--teal)}
-  .next-btn:focus-visible{outline:3px solid var(--marigold);outline-offset:2px}
+.brand {
+  font-family: 'Tiro Devanagari Marathi', serif;
+  font-size: 2rem;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--ink);
+}
 
-  /* ── Result screen ── */
-  .result{text-align:center;padding-top:8px}
-  .result .big-score{font-family:'Tiro Devanagari Hindi',serif;font-size:4rem;color:var(--teal);line-height:1.2}
-  .result .verdict{font-size:1.15rem;margin:2px 0 18px}
-  .emoji-row{font-size:1.6rem;letter-spacing:.18em;margin-bottom:22px}
-  .stats{display:flex;justify-content:center;gap:12px;margin-bottom:24px;flex-wrap:wrap}
-  .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 18px;min-width:88px}
-  .stat .num{font-size:1.6rem;font-weight:700;color:var(--ink)}
-  .stat .num.fire{color:var(--marigold)}
-  .stat .lbl{font-size:.78rem;color:var(--ink-soft)}
-  .review{text-align:left;margin-top:6px}
-  .review h3{font-size:.95rem;color:var(--ink-soft);font-weight:500;margin-bottom:10px;text-align:center}
-  .rev-item{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:10px}
-  .rev-word{font-family:'Tiro Devanagari Hindi',serif;font-size:1.2rem}
-  .rev-ans{font-size:.92rem;color:var(--ink-soft);text-align:right}
-  .rev-mark{font-size:1.1rem}
-  .share-btn{
-    background:var(--teal);color:#fff;border:none;border-radius:999px;
-    font-family:'Mukta',sans-serif;font-size:1rem;font-weight:500;
-    padding:12px 36px;cursor:pointer;margin-top:18px;transition:background .15s;
-  }
-  .share-btn:hover{background:var(--ink)}
-  .come-back{margin-top:14px;font-size:.88rem;color:var(--ink-soft)}
+.brand span {
+  color: var(--saffron);
+}
 
-  footer{margin-top:auto;padding:20px;font-size:.78rem;color:var(--ink-soft);text-align:center}
+.tagline {
+  margin-top: 6px;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.02em;
+}
 
-  @media (prefers-reduced-motion: reduce){
-    *{transition:none !important}
-  }
-  @media (max-width:420px){
-    .title{font-size:1.9rem}
-    .word{font-size:2.1rem}
-  }
+.day-pill {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--teal);
+  background: var(--teal-bg);
+  padding: 3px 14px;
+  border-radius: 999px;
+}
+
+/* ── Progress bar ── */
+.progress-wrap {
+  margin: 20px 0 8px;
+}
+
+.progress-track {
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--saffron);
+  border-radius: 2px;
+  transition: width 0.4s cubic-bezier(.2,.8,.2,1);
+}
+
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  margin-top: 6px;
+}
+
+/* ── Question card ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 22px 22px;
+  box-shadow: 0 1px 4px rgba(26,26,46,0.06);
+}
+
+.q-number {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--saffron);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.q-text {
+  font-family: 'Tiro Devanagari Marathi', serif;
+  font-size: 1.45rem;
+  line-height: 1.55;
+  color: var(--ink);
+  margin-bottom: 22px;
+  padding-bottom: 18px;
+  border-bottom: 1.5px solid var(--border);
+}
+
+/* ── Options ── */
+.opt {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-family: 'Mukta', sans-serif;
+  font-size: 1rem;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 13px 16px;
+  margin-bottom: 9px;
+  cursor: pointer;
+  transition: border-color 0.12s, background 0.12s, transform 0.06s;
+  line-height: 1.4;
+}
+
+.opt:last-of-type {
+  margin-bottom: 0;
+}
+
+.opt:hover:not(:disabled) {
+  border-color: var(--saffron);
+  background: var(--saffron-bg);
+}
+
+.opt:active:not(:disabled) {
+  transform: scale(0.99);
+}
+
+.opt:focus-visible {
+  outline: 2px solid var(--saffron);
+  outline-offset: 2px;
+}
+
+.opt:disabled {
+  cursor: default;
+}
+
+.opt.chosen {
+  background: var(--selected);
+  border-color: var(--selected);
+  color: var(--selected-fg);
+  font-weight: 500;
+}
+
+.opt.dim {
+  opacity: 0.38;
+}
+
+/* ── Next button ── */
+.next-btn {
+  display: block;
+  width: 100%;
+  margin-top: 16px;
+  background: var(--saffron);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Mukta', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 13px 24px;
+  cursor: pointer;
+  transition: background 0.12s;
+  letter-spacing: 0.02em;
+}
+
+.next-btn:hover {
+  background: #C96A28;
+}
+
+.next-btn:focus-visible {
+  outline: 2px solid var(--saffron);
+  outline-offset: 2px;
+}
+
+/* ── Result screen ── */
+.result {
+  text-align: center;
+}
+
+.result-headline {
+  font-family: 'Tiro Devanagari Marathi', serif;
+  font-size: 2.2rem;
+  color: var(--teal);
+  line-height: 1.25;
+  margin-bottom: 4px;
+}
+
+.result-sub {
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  margin-bottom: 24px;
+}
+
+/* streak row */
+.streak-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 26px;
+  flex-wrap: wrap;
+}
+
+.streak-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 20px;
+  min-width: 90px;
+  text-align: center;
+}
+
+.streak-num {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.1;
+}
+
+.streak-num.fire {
+  color: var(--saffron);
+}
+
+.streak-lbl {
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  margin-top: 2px;
+  letter-spacing: 0.03em;
+}
+
+/* summary */
+.summary-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  text-align: left;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.summary-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 11px 14px;
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+.summary-q {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  margin-bottom: 4px;
+  line-height: 1.35;
+}
+
+.summary-a {
+  font-size: 0.98rem;
+  color: var(--ink);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.summary-a::before {
+  content: '→ ';
+  color: var(--saffron);
+  font-weight: 600;
+}
+
+/* share button */
+.share-btn {
+  display: inline-block;
+  margin-top: 20px;
+  background: var(--ink);
+  color: var(--bg);
+  border: none;
+  border-radius: 10px;
+  font-family: 'Mukta', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 12px 32px;
+  cursor: pointer;
+  transition: background 0.12s;
+  letter-spacing: 0.02em;
+}
+
+.share-btn:hover {
+  background: var(--teal);
+}
+
+.share-confirm {
+  font-size: 0.82rem;
+  color: var(--teal);
+  margin-top: 8px;
+  min-height: 18px;
+}
+
+.come-back {
+  margin-top: 18px;
+  font-size: 0.84rem;
+  color: var(--ink-soft);
+}
+
+/* ── Already done today ── */
+.done-banner {
+  background: var(--teal-bg);
+  border: 1px solid var(--teal);
+  border-radius: 12px;
+  padding: 14px 18px;
+  text-align: center;
+  font-size: 0.92rem;
+  color: var(--teal);
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+footer {
+  margin-top: auto;
+  padding: 24px;
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+
+@media (max-width: 400px) {
+  .brand { font-size: 1.75rem; }
+  .q-text { font-size: 1.25rem; }
+}
 </style>
 </head>
 <body>
 <div class="wrap">
+
   <header>
-    <div class="title">शब्दार्थ</div>
-    <div class="tagline">रोज़ पाँच कठिन शब्द · अर्थ पहचानिए</div>
-    <div class="day-label" id="dayLabel"></div>
+    <div class="brand">बुद्धी<span>घर</span></div>
+    <div class="tagline">७ प्रश्न · ३० सेकंद · स्वतःबद्दलचे निरीक्षण</div>
+    <div class="day-pill" id="dayPill"></div>
   </header>
 
-  <div class="shiro"><div class="shiro-fill" id="shiroFill"></div></div>
-  <div class="shiro-meta"><span id="progressText"></span><span id="scoreText"></span></div>
+  <div class="progress-wrap">
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-meta">
+      <span id="progressText"></span>
+      <span id="streakText"></span>
+    </div>
+  </div>
 
   <main id="game"></main>
+
 </div>
-<footer>शब्दार्थ · एक छोटा-सा शब्द-खेल</footer>
+
+<footer>बुद्धीघर · रोजचे निरीक्षण</footer>
 
 <script>
-(function(){
+(function () {
   "use strict";
 
-  /* ───── Config ───── */
-  var LAUNCH = "2026-06-10";          // Day 1 (IST). Change to your launch date.
-  var DATA_B64 = "W1t7InciOiLgpKjgpL/gpLDgpY3gpJ3gpLAiLCJvIjpbIuCkneCksOCkqOCkviIsIuCkquCksOCljeCkteCkpCIsIuCkrOCkvuCkpuCksiIsIuCksOClh+Ckl+Ckv+CkuOCljeCkpOCkvuCkqCJdLCJjIjowfSx7InciOiLgpJXgpY3gpLfgpKPgpK3gpILgpJfgpYHgpLAiLCJvIjpbIuCkuOCkpuCkviDgpKzgpKjgpL4g4KSw4KS54KSo4KWHIOCkteCkvuCksuCkviIsIuCkrOCkueClgeCkpCDgpK3gpL7gpLDgpYAiLCLgpKzgpLngpYHgpKQg4KSV4KSuIOCkuOCkruCkryDgpKTgpJUg4KSw4KS54KSo4KWHIOCkteCkvuCksuCkviIsIuCkrOCkueClgeCkpCDgpKrgpYHgpLDgpL7gpKjgpL4iXSwiYyI6Mn0seyJ3Ijoi4KS14KS+4KSa4KS+4KSyIiwibyI6WyLgpJrgpYHgpKog4KSw4KS54KSo4KWHIOCkteCkvuCksuCkviIsIuCkrOCkueClgeCkpCDgpKzgpYvgpLLgpKjgpYcg4KS14KS+4KSy4KS+Iiwi4KSk4KWH4KSc4KS8IOCkpuCljOCkoeCkvOCkqOClhyDgpLXgpL7gpLLgpL4iLCLgpJ3gpYLgpKAg4KSs4KWL4KSy4KSo4KWHIOCkteCkvuCksuCkviJdLCJjIjoxfSx7InciOiLgpIXgpKjgpYHgpJfgpY3gpLDgpLkiLCJvIjpbIuCkleCljeCksOCli+CkpyIsIuCkmOClg+Cko+CkviIsIuCkreCkryIsIuCkleClg+CkquCkviJdLCJjIjozfSx7InciOiLgpKrgpL7gpLfgpL7gpKMiLCJvIjpbIuCkquCkvuCkqOClgCIsIuCkquCkpOCljeCkpeCksCIsIuCkquClh+CkoeCkvCIsIuCkruCkv+Ckn+CljeCkn+ClgCJdLCJjIjoxfV0sW3sidyI6IuCkruClg+Ckl+CkpOClg+Ckt+CljeCko+CkviIsIm8iOlsi4KSd4KWC4KSg4KS+IOCkhuCkreCkvuCkuCDgpK/gpL4g4KSt4KWN4KSw4KSuIiwi4KSX4KS54KSw4KWAIOCkqOClgOCkguCkpiIsIuCkuOCkmuCljeCkmuClgCDgpIfgpJrgpY3gpJvgpL4iLCLgpJzgpILgpJfgpLIg4KSV4KWAIOCkhuCklyJdLCJjIjowfSx7InciOiLgpKjgpL/gpLbgpL7gpJrgpLAiLCJvIjpbIuCkuOClgeCkrOCkuSDgpJzgpLLgpY3gpKbgpYAg4KSJ4KSg4KSo4KWHIOCkteCkvuCksuCkviIsIuCkquCkvuCkqOClgCDgpK7gpYfgpIIg4KSw4KS54KSo4KWHIOCkteCkvuCksuCkviIsIuCksOCkvuCkpCDgpK7gpYfgpIIg4KS14KS/4KSa4KSw4KSjIOCkleCksOCkqOClhyDgpLXgpL7gpLLgpL4iLCLgpKrgpLngpL7gpKHgpLwg4KSq4KSwIOCksOCkueCkqOClhyDgpLXgpL7gpLLgpL4iXSwiYyI6Mn0seyJ3Ijoi4KSF4KSu4KWN4KSs4KWB4KSn4KS/IiwibyI6WyLgpIbgpJXgpL7gpLYiLCLgpKrgpLDgpY3gpLXgpKQiLCLgpKjgpKbgpYAiLCLgpLjgpK7gpYHgpKbgpY3gpLAiXSwiYyI6M30seyJ3Ijoi4KSV4KWD4KSq4KSjIiwibyI6WyLgpJXgpILgpJzgpYLgpLgiLCLgpKbgpL7gpKjgpYAiLCLgpJXgpY3gpLDgpYvgpKfgpYAiLCLgpIbgpLLgpLjgpYAiXSwiYyI6MH0seyJ3Ijoi4KSF4KS14KSo4KS/IiwibyI6WyLgpIbgpJXgpL7gpLYiLCLgpKrgpYPgpKXgpY3gpLXgpYAiLCLgpJzgpLIiLCLgpIXgpJfgpY3gpKjgpL8iXSwiYyI6MX1dLFt7InciOiLgpKTgpL/gpK7gpL/gpLAiLCJvIjpbIuCkquCljeCksOCkleCkvuCktiIsIuCkuOClguCksOCljeCkryIsIuCkheCkguCkp+CkleCkvuCksCIsIuCkm+CkvuCkr+CkviJdLCJjIjoyfSx7InciOiLgpJXgpYHgpJ/gpL/gpLIiLCJvIjpbIuCkm+Cksi3gpJXgpKrgpJ8g4KSV4KSw4KSo4KWHIOCkteCkvuCksuCkviIsIuCkuOClgOCkp+Ckvi3gpLjgpL7gpKbgpL4iLCLgpKzgpLLgpLXgpL7gpKgiLCLgpLjgpYHgpILgpKbgpLAiXSwiYyI6MH0seyJ3Ijoi4KS14KS/4KS54KSXIiwibyI6WyLgpK7gpJvgpLLgpYAiLCLgpLjgpL7gpIHgpKoiLCLgpKzgpL7gpKbgpLIiLCLgpKrgpJXgpY3gpLfgpYAiXSwiYyI6M30seyJ3Ijoi4KSF4KSo4KSyIiwibyI6WyLgpKrgpL7gpKjgpYAiLCLgpIbgpJciLCLgpLngpLXgpL4iLCLgpKfgpLDgpKTgpYAiXSwiYyI6MX0seyJ3Ijoi4KS24KWN4KSy4KS+4KSY4KS+IiwibyI6WyLgpKjgpL/gpILgpKbgpL4iLCLgpIjgpLDgpY3gpLfgpY3gpK/gpL4iLCLgpKrgpY3gpLDgpLbgpILgpLjgpL4iLCLgpKrgpY3gpLDgpL7gpLDgpY3gpKXgpKjgpL4iXSwiYyI6Mn1dLFt7InciOiLgpK7gpKfgpYHgpKoiLCJvIjpbIuCkreCljOCkguCksOCkviIsIuCkpOCkv+CkpOCksuClgCIsIuCkleCli+Ckr+CksiIsIuCkueCkv+CksOCkoyJdLCJjIjowfSx7InciOiLgpKbgpYHgpLDgpY3gpKjgpL/gpLXgpL7gpLAiLCJvIjpbIuCknOCliyDgpKzgpLngpYHgpKQg4KSm4KWC4KSwIOCkueCliyIsIuCknOCkv+CkuOClhyDgpLDgpYvgpJXgpKjgpL4g4KSV4KSg4KS/4KSoIOCkueCliyIsIuCknOCliyDgpKzgpLngpYHgpKQg4KSn4KWA4KSu4KS+IOCkueCliyIsIuCknOCliyDgpKbgpL/gpJbgpL7gpIgg4KSoIOCkpuClhyJdLCJjIjoxfSx7InciOiLgpKrgpK/gpYvgpKfgpLAiLCJvIjpbIuCkquCksOCljeCkteCkpCIsIuCkqOCkpuClgCIsIuCkteClg+CkleCljeCktyIsIuCkrOCkvuCkpuCksiJdLCJjIjozfSx7InciOiLgpIXgpKjgpYHgpLDgpJXgpY3gpKTgpL8iLCJvIjpbIuCkmOClg+Cko+CkviIsIuCkl+CkueCksOCkviDgpKrgpY3gpLDgpYfgpK4g4KSv4KS+IOCksuCkl+CkvuCktSIsIuCkreCkryIsIuCkleCljeCksOCli+CkpyJdLCJjIjoxfSx7InciOiLgpLXgpYjgpK3gpLUiLCJvIjpbIuCkp+CkqC3gpLjgpILgpKrgpKTgpY3gpKTgpL8g4KSU4KSwIOCkoOCkvuCkny3gpKzgpL7gpJ8iLCLgpJfgpLDgpYDgpKzgpYAiLCLgpJzgpY3gpJ7gpL7gpKgiLCLgpLbgpL7gpILgpKTgpL8iXSwiYyI6MH1dLFt7InciOiLgpJXgpY3gpLfgpL/gpKTgpL/gpJwiLCJvIjpbIuCkquCksOCljeCkteCkpCDgpJXgpYAg4KSa4KWL4KSf4KWAIiwi4KSo4KSm4KWAIOCkleCkviDgpJXgpL/gpKjgpL7gpLDgpL4iLCLgpJzgpLngpL7gpIEg4KSn4KSw4KSk4KWAIOCklOCksCDgpIbgpJXgpL7gpLYg4KSu4KS/4KSy4KSk4KWHIOCkpuCkv+CkluClh+CkgiIsIuCkl+CkueCksOCkviDgpLjgpK7gpYHgpKbgpY3gpLAiXSwiYyI6Mn0seyJ3Ijoi4KSF4KS54KSw4KWN4KSo4KS/4KS2IiwibyI6WyLgpJXgpYfgpLXgpLIg4KSw4KS+4KSkIOCkruClh+CkgiIsIuCkleCkreClgC3gpJXgpK3gpYAiLCLgpJXgpYfgpLXgpLIg4KSm4KS/4KSoIOCkruClh+CkgiIsIuCkpuCkv+CkqC3gpLDgpL7gpKQg4KSy4KSX4KS+4KSk4KS+4KSwIl0sImMiOjN9LHsidyI6IuCknOCkv+CknOClgOCkteCkv+Ckt+CkviIsIm8iOlsi4KSc4KWA4KSo4KWHIOCkleClgCDgpKrgpY3gpLDgpKzgpLIg4KSH4KSa4KWN4KSb4KS+Iiwi4KSc4KWA4KSk4KSo4KWHIOCkleClgCDgpIfgpJrgpY3gpJvgpL4iLCLgpJzgpL7gpKjgpKjgpYcg4KSV4KWAIOCkh+CkmuCljeCkm+CkviIsIuCkmOClguCkruCkqOClhyDgpJXgpYAg4KSH4KSa4KWN4KSb4KS+Il0sImMiOjB9LHsidyI6IuCkqOCkv+Ckt+CljeCkoOClgeCksCIsIm8iOlsi4KSm4KSv4KS+4KSy4KWBIiwi4KSo4KS/4KSw4KWN4KSm4KSv4KWAIOCklOCksCDgpJXgpKDgpYvgpLAiLCLgpJXgpYvgpK7gpLIiLCLgpJrgpKTgpYHgpLAiXSwiYyI6MX0seyJ3Ijoi4KSJ4KSq4KS54KS+4KS4IiwibyI6WyLgpIngpKrgpLngpL7gpLAg4KSm4KWH4KSo4KS+Iiwi4KSq4KWN4KSw4KS24KSC4KS44KS+IOCkleCksOCkqOCkviIsIuCkuOCljeCkteCkvuCkl+CkpCDgpJXgpLDgpKjgpL4iLCLgpK7gpJzgpLzgpL7gpJUg4KSJ4KSh4KS84KS+4KSo4KS+Il0sImMiOjN9XV0=";
-  var STORE_KEY = "shabdarth_v1";
+  /* ── Config ── */
+  var LAUNCH    = "2026-06-13";
+  var STORE_KEY = "buddhighar_v1";
 
-  /* ───── Data ───── */
-  var DAYS = JSON.parse(decodeURIComponent(escape(atob(DATA_B64))));
-
-  /* ───── Date helpers (IST) ───── */
-  function istToday(){
-    return new Date().toLocaleDateString("en-CA",{timeZone:"Asia/Kolkata"}); // YYYY-MM-DD
-  }
-  function dayDiff(a,b){ // b - a in days
-    return Math.round((new Date(b+"T00:00:00Z") - new Date(a+"T00:00:00Z"))/86400000);
-  }
-  var todayStr = istToday();
-  var dayNumber = dayDiff(LAUNCH, todayStr);            // 0-based; can be negative pre-launch
-  var dayIndex = ((dayNumber % DAYS.length)+DAYS.length)%DAYS.length; // cycles through pool
-  var puzzle = DAYS[dayIndex];
-
-  /* ───── State (localStorage) ───── */
-  function loadState(){
-    try{ return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }
-    catch(e){ return {}; }
-  }
-  function saveState(s){
-    try{ localStorage.setItem(STORE_KEY, JSON.stringify(s)); }catch(e){}
-  }
-  var state = loadState();
-  if(!state.answers) state.answers = {};   // {date: [pickedIndex x5]}
-  if(!state.scores)  state.scores  = {};   // {date: score}
-  if(typeof state.streak     !== "number") state.streak = 0;
-  if(typeof state.bestStreak !== "number") state.bestStreak = 0;
-  if(typeof state.daysPlayed !== "number") state.daysPlayed = 0;
-
-  var todayAnswers = state.answers[todayStr] || [];
-  var current = todayAnswers.length;       // index of word to show next
-  var finishedToday = (current >= puzzle.length);
-
-  /* ───── DOM refs ───── */
-  var game = document.getElementById("game");
-  var shiroFill = document.getElementById("shiroFill");
-  var progressText = document.getElementById("progressText");
-  var scoreText = document.getElementById("scoreText");
-  document.getElementById("dayLabel").textContent = "दिन " + (dayNumber+1) + " · " + todayStr;
-
-  function scoreSoFar(){
-    var s=0;
-    for(var i=0;i<todayAnswers.length;i++){
-      if(todayAnswers[i] === puzzle[i].c) s++;
+  /* ── Questions ── */
+  var QUESTIONS = [
+    {
+      q: "आज मी माझ्या संकल्पासाठी वेळ दिला का?",
+      o: [
+        "हो, दिला ना",
+        "थोडासा",
+        "जवळजवळ नाहीच म्हणा ना!",
+        "अजिबात नाही"
+      ]
+    },
+    {
+      q: "आज संकल्प पाळायला सर्वात जास्त मदत कशामुळे झाली?",
+      o: [
+        "ठरलेली वेळ",
+        "ठरलेली जागा",
+        "आता सवय झाली आहे",
+        "आज कशाचीच मदत झाली नाही"
+      ]
+    },
+    {
+      q: "आज सर्वात मोठा अडथळा कोणता होता?",
+      o: [
+        "वेळ",
+        "Energy level",
+        "विसरणं",
+        "मन नसणं"
+      ]
+    },
+    {
+      q: "आज संकल्प सोपा वाटला की कठीण?",
+      o: [
+        "खूप सोपा",
+        "बऱ्यापैकी सोपा",
+        "थोडा कठीण",
+        "खूप कठीण"
+      ]
+    },
+    {
+      q: "आज मी संकल्प का पाळला?",
+      o: [
+        "स्वतःला दिलेलं वचन",
+        "मला त्याचा फायदा जाणवतोय",
+        "सवय बनतेय",
+        "आज पाळलाच नाही"
+      ]
+    },
+    {
+      q: "आज मी स्वतःबद्दल काय निरीक्षण केलं?",
+      o: [
+        "सुरुवात केली की पुढे होतं",
+        "थकवा आला की थांबायला होतं",
+        "वेळ काढता येतो",
+        "अजून समजत नाहीये"
+      ]
+    },
+    {
+      q: "उद्यासाठी एक छोटा निर्णय?",
+      o: [
+        "वेळ बदलणार",
+        "प्रमाण कमी करणार",
+        "तसेच ठेवणार",
+        "पुन्हा सुरुवात करणार"
+      ]
     }
-    return s;
-  }
-  function updateHeader(){
-    var done = todayAnswers.length;
-    shiroFill.style.width = (done/puzzle.length*100) + "%";
-    progressText.textContent = "शब्द " + Math.min(done+1,puzzle.length) + " / " + puzzle.length;
-    scoreText.textContent = "अंक: " + scoreSoFar();
-    if(finishedToday){ progressText.textContent = "आज पूरा हुआ ✓"; }
+  ];
+
+  /* ── IST date helpers ── */
+  function istToday() {
+    return new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
   }
 
-  /* ───── Question screen ───── */
-  function showQuestion(i){
-    var q = puzzle[i];
+  function dayDiff(a, b) {
+    return Math.round(
+      (new Date(b + "T00:00:00Z") - new Date(a + "T00:00:00Z")) / 86400000
+    );
+  }
+
+  var todayStr  = istToday();
+  var dayNumber = dayDiff(LAUNCH, todayStr) + 1; // 1-based display
+
+  /* ── State ── */
+  function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }
+    catch (e) { return {}; }
+  }
+
+  function saveState(s) {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(s)); } catch (e) {}
+  }
+
+  var state = loadState();
+  if (!state.answers)             state.answers    = {};
+  if (typeof state.streak        !== "number") state.streak     = 0;
+  if (typeof state.bestStreak    !== "number") state.bestStreak = 0;
+  if (typeof state.daysPlayed    !== "number") state.daysPlayed = 0;
+  if (!state.lastPlayed)          state.lastPlayed = null;
+
+  var todayAnswers  = state.answers[todayStr] || [];
+  var current       = todayAnswers.length;
+  var finishedToday = current >= QUESTIONS.length;
+
+  /* ── DOM refs ── */
+  var game         = document.getElementById("game");
+  var progressFill = document.getElementById("progressFill");
+  var progressText = document.getElementById("progressText");
+  var streakText   = document.getElementById("streakText");
+  document.getElementById("dayPill").textContent = "दिवस " + dayNumber + " · " + todayStr;
+
+  /* ── Header update ── */
+  function updateHeader() {
+    var done = todayAnswers.length;
+    progressFill.style.width = (done / QUESTIONS.length * 100) + "%";
+
+    if (finishedToday) {
+      progressText.textContent = "आज पूर्ण ✓";
+    } else {
+      progressText.textContent = "प्रश्न " + Math.min(done + 1, QUESTIONS.length) + " / " + QUESTIONS.length;
+    }
+
+    streakText.textContent = "🔥 " + state.streak + " दिवस";
+  }
+
+  /* ── Question screen ── */
+  function showQuestion(index) {
+    var q    = QUESTIONS[index];
     var card = document.createElement("div");
     card.className = "card";
-    var h = '<div class="word">' + q.w + '</div>' +
-            '<div class="ask">इस शब्द का अर्थ क्या है?</div>';
-    for(var k=0;k<q.o.length;k++){
-      h += '<button class="opt" data-k="'+k+'">'+ q.o[k] +'</button>';
+
+    var html = '<div class="q-number">प्रश्न ' + (index + 1) + ' पैकी ' + QUESTIONS.length + '</div>' +
+               '<div class="q-text">' + q.q + '</div>';
+
+    for (var i = 0; i < q.o.length; i++) {
+      html += '<button class="opt" data-i="' + i + '">' + q.o[i] + '</button>';
     }
-    card.innerHTML = h;
+
+    card.innerHTML = html;
     game.innerHTML = "";
     game.appendChild(card);
     updateHeader();
 
     var opts = card.querySelectorAll(".opt");
-    function pick(k){
-      todayAnswers.push(k);
+
+    function pick(chosen) {
+      todayAnswers.push(chosen);
       state.answers[todayStr] = todayAnswers;
       saveState(state);
-      for(var j=0;j<opts.length;j++){
+
+      for (var j = 0; j < opts.length; j++) {
         opts[j].disabled = true;
-        if(j === q.c) opts[j].classList.add("correct");
-        else if(j === k) opts[j].classList.add("wrong");
-        else opts[j].classList.add("dim");
+        if (j === chosen) {
+          opts[j].classList.add("chosen");
+        } else {
+          opts[j].classList.add("dim");
+        }
       }
+
       updateHeader();
-      var btn = document.createElement("button");
+
+      var btn       = document.createElement("button");
       btn.className = "next-btn";
-      btn.textContent = (i+1 < puzzle.length) ? "अगला शब्द →" : "परिणाम देखें";
-      btn.addEventListener("click", function(){
+      var isLast    = index + 1 >= QUESTIONS.length;
+      btn.textContent = isLast ? "निकाल पाहा" : "पुढचा प्रश्न →";
+
+      btn.addEventListener("click", function () {
         current++;
-        if(current < puzzle.length) showQuestion(current);
-        else finishDay();
+        if (isLast) {
+          finishDay();
+        } else {
+          showQuestion(current);
+        }
       });
+
       card.appendChild(btn);
       btn.focus();
     }
-    for(var j=0;j<opts.length;j++){
-      (function(b){
-        b.addEventListener("click", function(){ pick(parseInt(b.getAttribute("data-k"),10)); });
-      })(opts[j]);
+
+    for (var k = 0; k < opts.length; k++) {
+      (function (btn) {
+        btn.addEventListener("click", function () {
+          pick(parseInt(btn.getAttribute("data-i"), 10));
+        });
+      })(opts[k]);
     }
   }
 
-  /* ───── Finish & streaks ───── */
-  function finishDay(){
-    if(!(todayStr in state.scores)){
-      var sc = scoreSoFar();
-      state.scores[todayStr] = sc;
-      // streak: continued if last played date was yesterday
-      var yesterday = null;
-      var dates = Object.keys(state.scores).filter(function(d){return d!==todayStr;}).sort();
-      if(dates.length) yesterday = dates[dates.length-1];
-      if(yesterday && dayDiff(yesterday, todayStr) === 1) state.streak += 1;
-      else state.streak = 1;
-      if(state.streak > state.bestStreak) state.bestStreak = state.streak;
-      state.daysPlayed += 1;
+  /* ── Finish & streak ── */
+  function finishDay() {
+    if (!state._finishedDates) state._finishedDates = {};
+
+    if (!state._finishedDates[todayStr]) {
+      state._finishedDates[todayStr] = true;
+
+      // streak: continued if last played was yesterday
+      var lp = state.lastPlayed;
+      if (lp && dayDiff(lp, todayStr) === 1) {
+        state.streak += 1;
+      } else if (lp && dayDiff(lp, todayStr) === 0) {
+        // same day edge case — no change
+      } else {
+        state.streak = 1;
+      }
+
+      if (state.streak > state.bestStreak) state.bestStreak = state.streak;
+      state.daysPlayed  += 1;
+      state.lastPlayed   = todayStr;
       saveState(state);
     }
+
     finishedToday = true;
     showResult();
   }
 
-  /* ───── Result screen ───── */
-  function emojiRow(){
-    var r="";
-    for(var i=0;i<puzzle.length;i++){
-      r += (todayAnswers[i]===puzzle[i].c) ? "🟩" : "🟥";
-    }
-    return r;
-  }
-  function verdict(sc){
-    if(sc===5) return "वाह! शब्द-सम्राट 👑";
-    if(sc===4) return "बहुत बढ़िया!";
-    if(sc===3) return "अच्छा प्रयास!";
-    if(sc===2) return "अभ्यास जारी रखें";
-    return "कल फिर कोशिश कीजिए!";
-  }
-  function showResult(){
-    var sc = state.scores[todayStr] || scoreSoFar();
+  /* ── Result screen ── */
+  function showResult() {
     updateHeader();
-    var h = '<div class="result">' +
-      '<div class="big-score">'+sc+'/5</div>' +
-      '<div class="verdict">'+verdict(sc)+'</div>' +
-      '<div class="emoji-row">'+emojiRow()+'</div>' +
-      '<div class="stats">' +
-        '<div class="stat"><div class="num fire">🔥 '+state.streak+'</div><div class="lbl">वर्तमान स्ट्रीक</div></div>' +
-        '<div class="stat"><div class="num">'+state.bestStreak+'</div><div class="lbl">सर्वश्रेष्ठ स्ट्रीक</div></div>' +
-        '<div class="stat"><div class="num">'+state.daysPlayed+'</div><div class="lbl">कुल दिन</div></div>' +
-      '</div>' +
-      '<div class="review"><h3>आज के शब्द</h3>';
-    for(var i=0;i<puzzle.length;i++){
-      var ok = todayAnswers[i]===puzzle[i].c;
-      h += '<div class="rev-item">' +
-             '<span class="rev-word">'+puzzle[i].w+'</span>' +
-             '<span class="rev-ans">'+puzzle[i].o[puzzle[i].c]+' <span class="rev-mark">'+(ok?"✅":"❌")+'</span></span>' +
-           '</div>';
-    }
-    h += '</div>' +
-      '<button class="share-btn" id="shareBtn">परिणाम साझा करें</button>' +
-      '<div class="come-back">कल नए पाँच शब्द मिलेंगे 🌅</div>' +
-      '</div>';
-    game.innerHTML = h;
 
-    document.getElementById("shareBtn").addEventListener("click", function(){
-      var txt = "शब्दार्थ — दिन " + (dayNumber+1) + "\n" + emojiRow() + " " + sc + "/5\n" + location.href;
-      var btn = this;
-      function done(){ btn.textContent = "कॉपी हो गया ✓"; setTimeout(function(){btn.textContent="परिणाम साझा करें";},2000); }
-      if(navigator.share){
-        navigator.share({text:txt}).catch(function(){});
-      } else if(navigator.clipboard){
-        navigator.clipboard.writeText(txt).then(done).catch(function(){});
+    var html = '<div class="result">' +
+      '<div class="result-headline">उद्या पुन्हा यावे 🙏</div>' +
+      '<div class="result-sub">आजचे निरीक्षण नोंदवले गेले.</div>' +
+
+      '<div class="streak-row">' +
+        '<div class="streak-box">' +
+          '<div class="streak-num fire">🔥 ' + state.streak + '</div>' +
+          '<div class="streak-lbl">सध्याचा streak</div>' +
+        '</div>' +
+        '<div class="streak-box">' +
+          '<div class="streak-num">' + state.bestStreak + '</div>' +
+          '<div class="streak-lbl">सर्वोत्तम streak</div>' +
+        '</div>' +
+        '<div class="streak-box">' +
+          '<div class="streak-num">' + state.daysPlayed + '</div>' +
+          '<div class="streak-lbl">एकूण दिवस</div>' +
+        '</div>' +
+      '</div>' +
+
+      '<div class="summary-title">आजचे उत्तर</div>';
+
+    for (var i = 0; i < QUESTIONS.length; i++) {
+      var ans = todayAnswers[i];
+      var ansText = (typeof ans !== "undefined") ? QUESTIONS[i].o[ans] : "—";
+      html += '<div class="summary-item">' +
+        '<div class="summary-q">' + QUESTIONS[i].q + '</div>' +
+        '<div class="summary-a">' + ansText + '</div>' +
+      '</div>';
+    }
+
+    html +=
+      '<button class="share-btn" id="shareBtn">शेअर करा</button>' +
+      '<div class="share-confirm" id="shareFeedback"></div>' +
+      '<div class="come-back">उद्या नव्या दिवसाची सुरुवात करा 🌅</div>' +
+    '</div>';
+
+    game.innerHTML = html;
+
+    document.getElementById("shareBtn").addEventListener("click", function () {
+      var txt = "बुद्धीघर — दिवस " + dayNumber + "\n" +
+                "आज संकल्प निरीक्षण केलं ✅\n" +
+                "🔥 " + state.streak + " दिवसांचा streak\n" +
+                location.href;
+
+      var feedback = document.getElementById("shareFeedback");
+
+      function done() {
+        feedback.textContent = "कॉपी झाले ✓";
+        setTimeout(function () { feedback.textContent = ""; }, 2500);
+      }
+
+      if (navigator.share) {
+        navigator.share({ text: txt }).catch(function () {});
+      } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(txt).then(done).catch(function () {});
       }
     });
   }
 
-  /* ───── Boot ───── */
-  if(finishedToday){
-    if(!(todayStr in state.scores)) finishDay(); // edge: answered all, closed tab before scoring
-    else showResult();
+  /* ── Boot ── */
+  if (finishedToday) {
+    if (!state._finishedDates) state._finishedDates = {};
+    if (!state._finishedDates[todayStr]) {
+      finishDay();
+    } else {
+      showResult();
+    }
   } else {
     showQuestion(current);
   }
+
 })();
 </script>
 </body>
